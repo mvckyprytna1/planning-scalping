@@ -1,0 +1,280 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.w{padding:1rem 0;font-family:var(--font-sans)}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:10px}
+.sec{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px}
+.step{display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary);align-items:flex-start}
+.step:last-child{border-bottom:none}
+.num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;margin-top:1px}
+.num.malam{background:#E6F1FB;color:#185FA5}
+.num.pagi{background:#EAF3DE;color:#3B6D11}
+.num.market{background:#FAEEDA;color:#854F0B}
+.num.exit{background:#FCEBEB;color:#A32D2D}
+.step-body{flex:1}
+.step-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px}
+.step-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.step-desc b{font-weight:500;color:var(--color-text-primary)}
+.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;font-weight:500;margin-right:4px}
+.b-blue{background:#E6F1FB;color:#185FA5}
+.b-green{background:#EAF3DE;color:#3B6D11}
+.b-amber{background:#FAEEDA;color:#854F0B}
+.b-red{background:#FCEBEB;color:#A32D2D}
+.b-gray{background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.phase{font-size:11px;font-weight:500;letter-spacing:.5px;color:var(--color-text-tertiary);margin:14px 0 6px;text-transform:uppercase}
+.filter-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 14px;margin-top:8px}
+.filter-row{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.filter-row:last-child{border-bottom:none}
+.fl{color:var(--color-text-secondary)}
+.fv{font-weight:500;color:var(--color-text-primary)}
+.alert-box{border-radius:var(--border-radius-md);padding:10px 14px;margin-top:6px;font-size:12px;line-height:1.6}
+.alert-red{background:#FCEBEB;color:#A32D2D}
+.alert-green{background:#EAF3DE;color:#3B6D11}
+.alert-amber{background:#FAEEDA;color:#854F0B}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:480px){.two{grid-template-columns:1fr}}
+.tab-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.tab{padding:5px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:transparent;cursor:pointer;font-size:12px;color:var(--color-text-secondary)}
+.tab.active{background:var(--color-background-secondary);color:var(--color-text-primary);font-weight:500}
+.panel{display:none}
+.panel.active{display:block}
+</style>
+
+<div class="w">
+<h2 class="sr-only">Planning scalping harian — panduan step by step Stockbit dan Chartbit</h2>
+
+<div class="tab-bar">
+  <button class="tab active" onclick="sw('alur')">Alur Kerja</button>
+  <button class="tab" onclick="sw('filter')">Filter Stockbit</button>
+  <button class="tab" onclick="sw('chartbit')">Konfirmasi Chartbit</button>
+  <button class="tab" onclick="sw('bisa')">Bisa vs Tidak</button>
+</div>
+
+<!-- ALUR KERJA -->
+<div id="tab-alur" class="panel active">
+  <div class="card">
+    <div class="phase">Malam ini (sebelum tidur)</div>
+
+    <div class="step">
+      <div class="num malam">1</div>
+      <div class="step-body">
+        <div class="step-title">Jalankan screener di Stockbit</div>
+        <div class="step-desc">Buka Stockbit → Screener → Create Screener. Input filter <b>Momentum Pagi</b> (lihat tab Filter Stockbit). Catat 5–10 saham kandidat yang lolos.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num malam">2</div>
+      <div class="step-body">
+        <div class="step-title">Cek chart harian kandidat di Chartbit</div>
+        <div class="step-desc">Buka tiap saham di Chartbit, timeframe Daily. Pastikan:<br><b>Harga > MA20, volume kemarin di atas rata-rata, RSI 45–72, tidak dekat resistance besar.</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num malam">3</div>
+      <div class="step-body">
+        <div class="step-title">Buat watchlist pendek</div>
+        <div class="step-desc">Pilih maksimal <b>3–5 saham terbaik</b>. Catat: level support, level resistance, dan rencana SL awal masing-masing. Jangan lebih dari 5 — fokus lebih penting dari kuantitas.</div>
+      </div>
+    </div>
+
+    <div class="phase">Pagi besok (sebelum market buka)</div>
+
+    <div class="step">
+      <div class="num pagi">4</div>
+      <div class="step-body">
+        <div class="step-title">Cek kondisi market global jam 08:00 – 09:00</div>
+        <div class="step-desc">Lihat: Dow Jones / Nasdaq tutup naik atau turun semalam? Rupiah melemah tajam? Harga minyak atau komoditas bergerak ekstrem? Kalau semua negatif, <b>mode defensif — kurangi ukuran posisi atau skip hari ini.</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num pagi">5</div>
+      <div class="step-body">
+        <div class="step-title">Cek IHSG futures / pre-market jam 08:45</div>
+        <div class="step-desc">Lihat indikasi awal IHSG. Kalau estimasi IHSG merah lebih dari <b>-0.7%</b>, siap-siap skip atau sangat selektif. Kalau hijau atau flat, lanjut ke langkah berikutnya.</div>
+      </div>
+    </div>
+
+    <div class="phase">Market buka (09:00 – 11:00)</div>
+
+    <div class="step">
+      <div class="num market">6</div>
+      <div class="step-body">
+        <div class="step-title">Tunggu 10 menit pertama — jangan langsung buy</div>
+        <div class="step-desc">Jam 09:00–09:10 itu sering chaos. Tunggu dulu. Amati: <b>IHSG mau ke mana, saham watchlist buka di mana, volume pagi seperti apa.</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num market">7</div>
+      <div class="step-body">
+        <div class="step-title">Konfirmasi di Chartbit timeframe 5 menit</div>
+        <div class="step-desc">Buka kandidat di Chartbit. Pasang EMA5 + EMA20 + VWAP + Volume. Tunggu salah satu sinyal ini:<br>
+        <b>— Breakout:</b> harga tembus high 15 menit pertama dengan volume besar<br>
+        <b>— Mantul support:</b> koreksi ke support lalu candle konfirmasi naik<br>
+        <b>— Retest:</b> harga balik ke level breakout dan mantul</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num market">8</div>
+      <div class="step-body">
+        <div class="step-title">Entry + pasang SL mental sebelum klik buy</div>
+        <div class="step-desc">Tentukan SL <b>sebelum</b> klik buy. Kalau SL nggak jelas, jangan masuk. Gunakan kalkulator trade (di tools jurnal) untuk cek lot yang pas dengan risiko 1–2% modal.</div>
+      </div>
+    </div>
+
+    <div class="phase">Siang – sore (exit)</div>
+
+    <div class="step">
+      <div class="num exit">9</div>
+      <div class="step-body">
+        <div class="step-title">TP bertahap, jangan rakus</div>
+        <div class="step-desc"><b>+2%</b> → jual 40–50% posisi. <b>+3.5%</b> → jual lagi 30%. Sisanya trailing atau exit sebelum 15:30.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num exit">10</div>
+      <div class="step-body">
+        <div class="step-title">Jam 15:30 — wajib keluar</div>
+        <div class="step-desc">Tidak ada alasan untuk tidak keluar. <b>Scalping = tidak boleh bermalam.</b> Tulis hasil di jurnal setelah market tutup.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FILTER STOCKBIT -->
+<div id="tab-filter" class="panel">
+  <div class="card">
+    <div class="sec">Cara input di Stockbit — Create Screener</div>
+    <div class="step-desc" style="margin-bottom:12px;font-size:13px">Buka Stockbit → Screener → <b>Create Screener</b> → klik <b>Add a Rule</b> → input satu per satu filter ini.</div>
+
+    <div class="sec" style="margin-top:4px">Screener Momentum Pagi (pakai ini dulu)</div>
+    <div class="filter-box">
+      <div class="filter-row"><span class="fl">Price Change Today (%)</span><span class="fv">> 0.5 dan < 6</span></div>
+      <div class="filter-row"><span class="fl">Value (hari ini)</span><span class="fv">> 10.000.000.000</span></div>
+      <div class="filter-row"><span class="fl">Volume / Volume MA20</span><span class="fv">> 1.5</span></div>
+      <div class="filter-row"><span class="fl">Market Cap</span><span class="fv">> 500.000.000.000</span></div>
+      <div class="filter-row"><span class="fl">Close > MA5</span><span class="fv">Centang / set True</span></div>
+      <div class="filter-row"><span class="fl">Close > MA20</span><span class="fv">Centang / set True</span></div>
+      <div class="filter-row"><span class="fl">RSI (14)</span><span class="fv">> 50 dan < 72</span></div>
+    </div>
+    <div class="alert-green" style="margin-top:8px">Simpan screener ini dengan nama "Momentum Pagi Scalping" biar besok tinggal klik.</div>
+
+    <div class="sec" style="margin-top:16px">Screener Volume Breakout (pakai kalau mau cari yang lebih agresif)</div>
+    <div class="filter-box">
+      <div class="filter-row"><span class="fl">Volume / Volume MA20</span><span class="fv">> 2</span></div>
+      <div class="filter-row"><span class="fl">Price Change Today (%)</span><span class="fv">> 1 dan < 8</span></div>
+      <div class="filter-row"><span class="fl">Value (hari ini)</span><span class="fv">> 15.000.000.000</span></div>
+      <div class="filter-row"><span class="fl">Market Cap</span><span class="fv">> 300.000.000.000</span></div>
+      <div class="filter-row"><span class="fl">Close > MA5</span><span class="fv">Centang / set True</span></div>
+      <div class="filter-row"><span class="fl">RSI (14)</span><span class="fv">> 45 dan < 75</span></div>
+    </div>
+
+    <div class="alert-amber" style="margin-top:8px">Catatan: Stockbit Screener pakai data EOD (kemarin). Hasil screener ini adalah <b>kandidat malam ini</b>, bukan sinyal beli langsung besok pagi. Konfirmasi wajib di Chartbit saat market buka.</div>
+  </div>
+</div>
+
+<!-- CHARTBIT -->
+<div id="tab-chartbit" class="panel">
+  <div class="card">
+    <div class="sec">Setup Chartbit untuk konfirmasi intraday</div>
+
+    <div class="step">
+      <div class="num pagi" style="font-size:11px">1</div>
+      <div class="step-body">
+        <div class="step-title">Timeframe yang dipakai</div>
+        <div class="step-desc">Malam → cek Daily chart dulu. Besok pagi saat market buka → pindah ke <b>5 menit</b>. Kalau ingin lebih santai, bisa pakai <b>15 menit</b>.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num pagi" style="font-size:11px">2</div>
+      <div class="step-body">
+        <div class="step-title">Indikator yang dipasang di Chartbit</div>
+        <div class="step-desc">
+          <b>EMA 5</b> (warna hijau) — trend sangat pendek<br>
+          <b>EMA 20</b> (warna merah) — trend pendek<br>
+          <b>VWAP</b> — patokan harga wajar intraday<br>
+          <b>Volume bar</b> — deteksi lonjakan aktivitas<br>
+          <b>RSI 14</b> — opsional tapi berguna
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num market" style="font-size:11px">3</div>
+      <div class="step-body">
+        <div class="step-title">Sinyal entry yang valid di Chartbit</div>
+        <div class="step-desc">
+          <b>Breakout:</b> candle 5 menit tembus high candle sebelumnya + volume lebih besar<br>
+          <b>Mantul VWAP:</b> harga turun ke VWAP, candle konfirmasi naik, volume masuk<br>
+          <b>EMA cross:</b> EMA5 silang ke atas EMA20 disertai volume naik
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num exit" style="font-size:11px">4</div>
+      <div class="step-body">
+        <div class="step-title">Sinyal bahaya di Chartbit — jangan masuk</div>
+        <div class="step-desc">
+          <b>Upper shadow panjang</b> di candle terakhir = ada tekanan jual<br>
+          <b>Volume turun</b> padahal harga naik = momentum lemah<br>
+          <b>Harga di bawah VWAP</b> dan tidak bisa balik = distribusi<br>
+          <b>Candle doji berulang</b> di resistance = buyer exhausted
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BISA vs TIDAK -->
+<div id="tab-bisa" class="panel">
+  <div class="card">
+    <div class="sec">Filter yang bisa diset di Stockbit vs yang tidak bisa</div>
+    <div class="two">
+      <div>
+        <div style="font-size:12px;font-weight:500;color:#3B6D11;margin-bottom:8px">Bisa diset di Stockbit</div>
+        <div class="filter-box" style="background:#EAF3DE">
+          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">Price Change %</div>
+          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">Volume (absolut)</div>
+          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">Volume MA20</div>
+          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">Value transaksi</div>
+          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">Market Cap</div>
+          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">Close vs MA5 / MA20</div>
+          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">RSI (14)</div>
+          <div style="font-size:12px;color:#3B6D11;padding:3px 0">MA5 vs MA20</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:500;color:#A32D2D;margin-bottom:8px">Tidak bisa / manual di Chartbit</div>
+        <div class="filter-box" style="background:#FCEBEB">
+          <div style="font-size:12px;color:#A32D2D;padding:3px 0;border-bottom:0.5px solid #F7C1C1">VWAP real-time</div>
+          <div style="font-size:12px;color:#A32D2D;padding:3px 0;border-bottom:0.5px solid #F7C1C1">Spread bid-offer</div>
+          <div style="font-size:12px;color:#A32D2D;padding:3px 0;border-bottom:0.5px solid #F7C1C1">Order book tebal/tipis</div>
+          <div style="font-size:12px;color:#A32D2D;padding:3px 0;border-bottom:0.5px solid #F7C1C1">Candle intraday</div>
+          <div style="font-size:12px;color:#A32D2D;padding:3px 0;border-bottom:0.5px solid #F7C1C1">Opening range breakout</div>
+          <div style="font-size:12px;color:#A32D2D;padding:3px 0">Kondisi IHSG real-time</div>
+        </div>
+      </div>
+    </div>
+    <div class="alert-amber" style="margin-top:12px">
+      <b>Kesimpulan:</b> Stockbit Screener = alat cari kandidat malam ini. Chartbit = alat konfirmasi besok pagi. Keduanya harus dipakai bersama — screener saja tidak cukup untuk scalping.
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function sw(name) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
