@@ -1,280 +1,853 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BEI Scalping Pro Terminal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       GLOBAL GLASSMORPHISM RESKINNING (THE JEWELRY)
+       ========================================================================== */
+    :root {
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --border-radius-md: 12px;
+      --border-radius-lg: 18px;
+      
+      /* Dark Theme Glass Palette */
+      --color-background-primary: rgba(15, 23, 42, 0.4);
+      --color-background-secondary: rgba(255, 255, 255, 0.06);
+      --color-border-primary: rgba(99, 102, 241, 0.4);
+      --color-border-secondary: rgba(255, 255, 255, 0.1);
+      --color-border-tertiary: rgba(255, 255, 255, 0.06);
+      
+      --color-text-primary: #f8fafc;
+      --color-text-secondary: #94a3b8;
+      --color-text-tertiary: #64748b;
+      
+      /* Neon Accent Signals */
+      --neon-green: #10b981;
+      --neon-red: #f43f5e;
+      --neon-amber: #f59e0b;
+      --neon-blue: #3b82f6;
+    }
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-.w{padding:1rem 0;font-family:var(--font-sans)}
-.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:10px}
-.sec{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px}
-.step{display:flex;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary);align-items:flex-start}
-.step:last-child{border-bottom:none}
-.num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;margin-top:1px}
-.num.malam{background:#E6F1FB;color:#185FA5}
-.num.pagi{background:#EAF3DE;color:#3B6D11}
-.num.market{background:#FAEEDA;color:#854F0B}
-.num.exit{background:#FCEBEB;color:#A32D2D}
-.step-body{flex:1}
-.step-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px}
-.step-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
-.step-desc b{font-weight:500;color:var(--color-text-primary)}
-.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;font-weight:500;margin-right:4px}
-.b-blue{background:#E6F1FB;color:#185FA5}
-.b-green{background:#EAF3DE;color:#3B6D11}
-.b-amber{background:#FAEEDA;color:#854F0B}
-.b-red{background:#FCEBEB;color:#A32D2D}
-.b-gray{background:var(--color-background-secondary);color:var(--color-text-secondary)}
-.phase{font-size:11px;font-weight:500;letter-spacing:.5px;color:var(--color-text-tertiary);margin:14px 0 6px;text-transform:uppercase}
-.filter-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 14px;margin-top:8px}
-.filter-row{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
-.filter-row:last-child{border-bottom:none}
-.fl{color:var(--color-text-secondary)}
-.fv{font-weight:500;color:var(--color-text-primary)}
-.alert-box{border-radius:var(--border-radius-md);padding:10px 14px;margin-top:6px;font-size:12px;line-height:1.6}
-.alert-red{background:#FCEBEB;color:#A32D2D}
-.alert-green{background:#EAF3DE;color:#3B6D11}
-.alert-amber{background:#FAEEDA;color:#854F0B}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media(max-width:480px){.two{grid-template-columns:1fr}}
-.tab-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
-.tab{padding:5px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:transparent;cursor:pointer;font-size:12px;color:var(--color-text-secondary)}
-.tab.active{background:var(--color-background-secondary);color:var(--color-text-primary);font-weight:500}
-.panel{display:none}
-.panel.active{display:block}
-</style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-<div class="w">
-<h2 class="sr-only">Planning scalping harian — panduan step by step Stockbit dan Chartbit</h2>
+    body {
+      font-family: var(--font-sans);
+      background: #090d16;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
+      background-attachment: fixed;
+      color: var(--color-text-primary);
+      min-height: 100vh;
+      padding: 0;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
 
-<div class="tab-bar">
-  <button class="tab active" onclick="sw('alur')">Alur Kerja</button>
-  <button class="tab" onclick="sw('filter')">Filter Stockbit</button>
-  <button class="tab" onclick="sw('chartbit')">Konfirmasi Chartbit</button>
-  <button class="tab" onclick="sw('bisa')">Bisa vs Tidak</button>
-</div>
+    /* Master Layout Header */
+    .master-header {
+      padding: 1.5rem 1rem 0.5rem;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .master-header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+    }
+    .master-header p {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+    }
 
-<!-- ALUR KERJA -->
-<div id="tab-alur" class="panel active">
-  <div class="card">
-    <div class="phase">Malam ini (sebelum tidur)</div>
+    /* Top Navigation for Hub Module Selection */
+    .module-nav {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      max-width: 800px;
+      margin: 1rem auto;
+      padding: 0 1rem;
+    }
+    .module-btn {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--color-border-secondary);
+      padding: 10px 6px;
+      border-radius: var(--border-radius-md);
+      color: var(--color-text-secondary);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(8px);
+      text-align: center;
+    }
+    .module-btn.active {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: #6366f1;
+      color: #fff;
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.25);
+    }
 
-    <div class="step">
-      <div class="num malam">1</div>
-      <div class="step-body">
-        <div class="step-title">Jalankan screener di Stockbit</div>
-        <div class="step-desc">Buka Stockbit → Screener → Create Screener. Input filter <b>Momentum Pagi</b> (lihat tab Filter Stockbit). Catat 5–10 saham kandidat yang lolos.</div>
+    /* Module Section Management */
+    .module-section {
+      display: none;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 1rem 3rem;
+    }
+    .module-section.active {
+      display: block;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Customizing Original Classes without changing HTML */
+    .card {
+      background: var(--color-background-primary) !important;
+      border: 1px solid var(--color-border-secondary) !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2) !important;
+      border-radius: var(--border-radius-lg) !important;
+      margin-bottom: 14px !important;
+    }
+
+    /* Tab Bar Overrides inside files */
+    .tab-bar {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 4px;
+      border-radius: var(--border-radius-md);
+      border: 1px solid var(--color-border-tertiary);
+      margin-bottom: 1rem !important;
+    }
+    .tab {
+      border: none !important;
+      border-radius: 8px !important;
+      color: var(--color-text-secondary) !important;
+      padding: 8px 12px !important;
+      transition: all 0.2s !important;
+    }
+    .tab.active {
+      background: rgba(255, 255, 255, 0.08) !important;
+      color: #fff !important;
+    }
+
+    /* Tables Reskinning */
+    .filter-table th, .log-table th {
+      border-bottom: 1px solid var(--color-border-secondary) !important;
+      color: var(--color-text-tertiary) !important;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+    .filter-table td, .log-table td {
+      border-bottom: 1px solid var(--color-border-tertiary) !important;
+      padding: 10px 8px !important;
+    }
+    .val {
+      color: #fff !important;
+      font-size: 14px;
+    }
+    .note {
+      color: var(--color-text-secondary) !important;
+    }
+
+    /* Neon Badge System Overrides */
+    .badge-blue { background: rgba(59, 130, 246, 0.15) !important; color: #60a5fa !important; border: 1px solid rgba(59, 130, 246, 0.25); }
+    .badge-green, .w { background: rgba(16, 185, 129, 0.15) !important; color: #34d399 !important; border: 1px solid rgba(16, 185, 129, 0.25); }
+    .badge-red, .l { background: rgba(244, 63, 94, 0.15) !important; color: #fb7185 !important; border: 1px solid rgba(244, 63, 94, 0.25); }
+    .badge-amber { background: rgba(245, 158, 11, 0.15) !important; color: #fbbf24 !important; border: 1px solid rgba(245, 158, 11, 0.25); }
+
+    /* Rules & Strategy Blocks */
+    .rule-block {
+      background: rgba(255, 255, 255, 0.02) !important;
+      border: 1px solid var(--color-border-tertiary) !important;
+      border-radius: var(--border-radius-md) !important;
+      padding: 12px 14px !important;
+      transition: all 0.2s;
+    }
+    .rule-block:hover {
+      background: rgba(255, 255, 255, 0.04) !important;
+      border-color: var(--color-border-secondary) !important;
+    }
+
+    /* Form Fields Glassmorphism */
+    .field input, .field select, .field textarea {
+      background: rgba(15, 23, 42, 0.6) !important;
+      border: 1px solid var(--color-border-secondary) !important;
+      color: #fff !important;
+      border-radius: 8px !important;
+      transition: all 0.2s ease;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: #6366f1 !important;
+      box-shadow: 0 0 10px rgba(99, 102, 241, 0.2) !important;
+      outline: none;
+    }
+
+    /* Glass Premium Buttons */
+    .btn-primary {
+      background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%) !important;
+      color: #fff !important;
+      border: none !important;
+      border-radius: 8px !important;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3) !important;
+      transition: all 0.2s !important;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4) !important;
+    }
+    
+    /* Checklist Interactive Item Styling */
+    .checklist-item {
+      padding: 12px 4px !important;
+      border-bottom: 1px solid var(--color-border-tertiary) !important;
+    }
+    .check-box {
+      border: 1.5px solid var(--color-border-secondary) !important;
+      background: rgba(0,0,0,0.2);
+    }
+    .check-box.checked {
+      background: var(--neon-green) !important;
+      border-color: var(--neon-green) !important;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+    }
+
+    /* Calculator Output Module */
+    .calc-out {
+      background: rgba(255, 255, 255, 0.02) !important;
+      border: 1px solid var(--color-border-tertiary) !important;
+      border-radius: var(--border-radius-md) !important;
+    }
+    .tp-card, .metric {
+      background: rgba(255, 255, 255, 0.02) !important;
+      border: 1px solid var(--color-border-tertiary) !important;
+      border-radius: var(--border-radius-md) !important;
+    }
+    
+    /* Text Color Fixes for Dark Glass Mode */
+    .green, .tp-val.green, .mval.green, .verdict-text.pass, .verdict-sub.pass { color: var(--neon-green) !important; }
+    .red, .tp-val.red, .mval.red, .verdict-text.fail, .verdict-sub.fail { color: var(--neon-red) !important; }
+    .amber-t, .mval.amber, .verdict-text.warn, .verdict-sub.warn { color: var(--neon-amber) !important; }
+
+    .verdict-box.pass { background: rgba(16, 185, 129, 0.1) !important; border: 1px solid rgba(16, 185, 129, 0.2); }
+    .verdict-box.fail { background: rgba(244, 63, 94, 0.1) !important; border: 1px solid rgba(244, 63, 94, 0.2); }
+    .verdict-box.warn { background: rgba(245, 158, 11, 0.1) !important; border: 1px solid rgba(245, 158, 11, 0.2); }
+
+    .score-bar {
+      background: rgba(255, 255, 255, 0.03) !important;
+      border: 1px solid var(--color-border-tertiary) !important;
+    }
+
+    /* Android Mobile Optimizations */
+    @media (max-width: 600px) {
+      .master-header h1 { font-size: 18px; }
+      .module-nav { gap: 4px; padding: 0 8px; }
+      .module-btn { font-size: 11px; padding: 8px 4px; }
+      .card { padding: 12px 14px !important; }
+      .log-table th, .log-table td { padding: 6px 4px !important; font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="master-header">
+    <h1>BEI SCALPING WORKSPACE</h1>
+    <p>Premium Trading Tools & Strategy Toolkit for Stockbit & Chartbit</p>
+  </header>
+
+  <nav class="module-nav">
+    <button class="module-btn active" onclick="switchModule('hub-screener')">🔍 Screener & Rule</button>
+    <button class="module-btn" onclick="switchModule('hub-jurnal')">📊 Jurnal & Kalkulator</button>
+    <button class="module-btn" onclick="switchModule('hub-planning')">🗺️ Alur & Strategi</button>
+  </nav>
+
+  <section id="hub-screener" class="module-section active">
+    <div class="wrap">
+    <h2 class="sr-only">Screener scalping harian saham BEI — panduan praktis Stockbit</h2>
+
+    <div class="tab-bar" role="tablist">
+      <button class="tab active" onclick="showTab('screener')" role="tab">Screener Stockbit</button>
+      <button class="tab" onclick="showTab('entry')" role="tab">Rule Entry</button>
+      <button class="tab" onclick="showTab('exit')" role="tab">TP / CL</button>
+      <button class="tab" onclick="showTab('checklist')" role="tab">Checklist Buy</button>
+    </div>
+
+    <div id="tab-screener" class="panel active">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div class="section-title">Screener 1 — Momentum Pagi</div>
+          <span class="badge badge-blue">Breakout</span>
+        </div>
+        <table class="filter-table">
+          <tr><th>Filter</th><th>Nilai di Stockbit</th></tr>
+          <tr><td>Price Change %</td><td><span class="val">+0.5% s/d +6%</span><div class="note">Sudah gerak, belum terlalu tinggi</div></td></tr>
+          <tr><td>Value Transaksi</td><td><span class="val">> Rp 10 M</span><div class="note">Likuid untuk scalping</div></td></tr>
+          <tr><td>Volume vs MA20</td><td><span class="val">> 1.5x</span><div class="note">Volume di atas rata-rata</div></td></tr>
+          <tr><td>Market Cap</td><td><span class="val">> Rp 500 M</span><div class="note">Filter gorengan micro cap</div></td></tr>
+          <tr><td>Close > MA5</td><td><span class="val">Ya</span></td></tr>
+          <tr><td>Close > MA20</td><td><span class="val">Ya</span></td></tr>
+          <tr><td>RSI (14)</td><td><span class="val">50 – 72</span><div class="note">Naik tapi belum overbought</div></td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div class="section-title">Screener 2 — Volume Breakout</div>
+          <span class="badge badge-green">Volume Spike</span>
+        </div>
+        <table class="filter-table">
+          <tr><th>Filter</th><th>Nilai di Stockbit</th></tr>
+          <tr><td>Volume / MA20</td><td><span class="val">> 2x (200%)</span><div class="note">Volume meledak = uang besar masuk</div></td></tr>
+          <tr><td>Price Change %</td><td><span class="val">+1% s/d +8%</span><div class="note">Harga ikut naik bukan cuma volume</div></td></tr>
+          <tr><td>Value Transaksi</td><td><span class="val">> Rp 15 M</span></td></tr>
+          <tr><td>Market Cap</td><td><span class="val">> Rp 300 M</span></td></tr>
+          <tr><td>Close > MA5</td><td><span class="val">Ya</span></td></tr>
+          <tr><td>RSI (14)</td><td><span class="val">45 – 75</span></td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div class="section-title">Screener 3 — Pullback Scalping</div>
+          <span class="badge badge-amber">Koreksi Sehat</span>
+        </div>
+        <table class="filter-table">
+          <tr><th>Filter</th><th>Nilai di Stockbit</th></tr>
+          <tr><td>Price Change %</td><td><span class="val">-1% s/d +0.5%</span><div class="note">Sedang koreksi ringan</div></td></tr>
+          <tr><td>MA5 > MA20</td><td><span class="val">Ya</span><div class="note">Struktur masih uptrend</div></td></tr>
+          <tr><td>Close > MA20</td><td><span class="val">Ya</span></td></tr>
+          <tr><td>RSI (14)</td><td><span class="val">35 – 55</span><div class="note">Sudah koreksi, belum oversold</div></td></tr>
+          <tr><td>Volume hari ini</td><td><span class="val">< Volume MA5</span><div class="note">Volume koreksi kecil = koreksi sehat</div></td></tr>
+          <tr><td>Value Transaksi</td><td><span class="val">> Rp 5 M</span></td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div class="section-title">Screener 4 — Anti Gorengan</div>
+          <span class="badge badge-red">Safety Filter</span>
+        </div>
+        <table class="filter-table">
+          <tr><th>Filter</th><th>Nilai di Stockbit</th></tr>
+          <tr><td>Market Cap</td><td><span class="val">> Rp 1 T</span><div class="note">Susah dimanipulasi</div></td></tr>
+          <tr><td>Value Transaksi</td><td><span class="val">> Rp 20 M</span></td></tr>
+          <tr><td>RSI (14)</td><td><span class="val">< 80</span></td></tr>
+          <tr><td>Price Change % (3 hari)</td><td><span class="val">Tidak > +15%</span><div class="note">Filter yang lagi digoreng</div></td></tr>
+          <tr><td>Volume MA20</td><td><span class="val">> 5 juta lembar/hari</span><div class="note">Saham aktif konsisten</div></td></tr>
+        </table>
       </div>
     </div>
 
-    <div class="step">
-      <div class="num malam">2</div>
-      <div class="step-body">
-        <div class="step-title">Cek chart harian kandidat di Chartbit</div>
-        <div class="step-desc">Buka tiap saham di Chartbit, timeframe Daily. Pastikan:<br><b>Harga > MA20, volume kemarin di atas rata-rata, RSI 45–72, tidak dekat resistance besar.</b></div>
+    <div id="tab-entry" class="panel">
+      <div class="section-title" style="margin-bottom:10px;">Syarat Entry Boleh</div>
+      <div class="rule-block"><span class="rule-icon" aria-hidden="true">🕐</span><div class="rule-text">Jam <b>09:10 – 11:00</b>. Lewat jam 11 skip kecuali setup sangat bersih.</div></div>
+      <div class="rule-block"><span class="rule-icon" aria-hidden="true">📈</span><div class="rule-text">IHSG <b>tidak merah lebih dari -0.7%</b> di jam 09:05.</div></div>
+      <div class="rule-block"><span class="rule-icon" aria-hidden="true">📊</span><div class="rule-text">Harga di atas <b>MA5 dan MA20</b>. Dua-duanya wajib.</div></div>
+      <div class="rule-block"><span class="rule-icon" aria-hidden="true">💰</span><div class="rule-text">Value transaksi <b>> Rp 10 miliar</b>. Di bawah itu skip.</div></div>
+      <div class="rule-block"><span class="rule-icon" aria-hidden="true">🔊</span><div class="rule-text">Volume hari ini <b>> Volume MA20</b>. Minimal 1.2x, idealnya 1.5x+.</div></div>
+      <div class="rule-block"><span class="rule-icon" aria-hidden="true">📉</span><div class="rule-text">Harga <b>belum naik > 7%</b> dari open. Kalau sudah, jangan kejar.</div></div>
+      <div class="rule-block"><span class="rule-icon" aria-hidden="true">🎯</span><div class="rule-text">Ada candle konfirmasi: <b>breakout, mantul support, atau retest</b>.</div></div>
+      <div class="rule-block"><span class="rule-icon" aria-hidden="true">⚖️</span><div class="rule-text">Risk:Reward minimal <b>1.5:1</b>. Kalau jelek, skip.</div></div>
+
+      <div class="divider"></div>
+
+      <div class="section-title" style="margin-bottom:10px;">Larangan Entry</div>
+      <div class="rule-block" style="border-left: 2px solid #E24B4A;"><span class="rule-icon" aria-hidden="true">🚫</span><div class="rule-text">Saham sudah naik <b>> 7% sejak open tanpa pullback</b>.</div></div>
+      <div class="rule-block" style="border-left: 2px solid #E24B4A;"><span class="rule-icon" aria-hidden="true">🚫</span><div class="rule-text">RSI <b>> 80</b>. Kemungkinan besar reversal.</div></div>
+      <div class="rule-block" style="border-left: 2px solid #E24B4A;"><span class="rule-icon" aria-hidden="true">🚫</span><div class="rule-text">IHSG sedang <b>jebol support</b> intraday.</div></div>
+      <div class="rule-block" style="border-left: 2px solid #E24B4A;"><span class="rule-icon" aria-hidden="true">🚫</span><div class="rule-text">Tidak ada <b>stop loss yang jelas</b> sebelum entry.</div></div>
+      <div class="rule-block" style="border-left: 2px solid #E24B4A;"><span class="rule-icon" aria-hidden="true">🚫</span><div class="rule-text">Masuk karena <b>FOMO lihat orang lain beli</b>.</div></div>
+    </div>
+
+    <div id="tab-exit" class="panel">
+      <div class="section-title" style="margin-bottom:10px;">Take Profit</div>
+      <div class="tp-grid">
+        <div class="tp-card">
+          <div class="tp-label">TP 1 — Jual 40-50%</div>
+          <div class="tp-val green">+2%</div>
+          <div class="note" style="margin-top:4px;">Amankan profit dulu</div>
+        </div>
+        <div class="tp-card">
+          <div class="tp-label">TP 2 — Jual 30%</div>
+          <div class="tp-val green">+3.5%</div>
+          <div class="note" style="margin-top:4px;">Jual lagi sebagian</div>
+        </div>
+        <div class="tp-card">
+          <div class="tp-label">TP 3 — Sisa posisi</div>
+          <div class="tp-val green">+5-6%</div>
+          <div class="note" style="margin-top:4px;">Kalau momentum kuat</div>
+        </div>
       </div>
-    </div>
 
-    <div class="step">
-      <div class="num malam">3</div>
-      <div class="step-body">
-        <div class="step-title">Buat watchlist pendek</div>
-        <div class="step-desc">Pilih maksimal <b>3–5 saham terbaik</b>. Catat: level support, level resistance, dan rencana SL awal masing-masing. Jangan lebih dari 5 — fokus lebih penting dari kuantitas.</div>
+      <div class="divider"></div>
+      <div class="section-title" style="margin-bottom:10px;">Cut Loss</div>
+      <div class="tp-grid">
+        <div class="tp-card">
+          <div class="tp-label">CL Normal</div>
+          <div class="tp-val red">-1.5%</div>
+          <div class="note" style="margin-top:4px;">Batas awal cut</div>
+        </div>
+        <div class="tp-card">
+          <div class="tp-label">CL Maksimal</div>
+          <div class="tp-val red">-2.5%</div>
+          <div class="note" style="margin-top:4px;">Tidak boleh lebih</div>
+        </div>
+        <div class="tp-card">
+          <div class="tp-label">Exit Wajib</div>
+          <div class="tp-val red">15:30</div>
+          <div class="note" style="margin-top:4px;">Apapun kondisinya</div>
+        </div>
       </div>
+
+      <div class="divider"></div>
+      <div class="section-title" style="margin-bottom:10px;">Kondisi Wajib Exit Lebih Cepat</div>
+      <div class="rule-block"><span class="rule-icon" aria-hidden="true">🔴</span><div class="rule-text">Harga turun di bawah <b>VWAP atau MA5 intraday</b>.</div></div>
+      <div class="rule-block"><span class="rule-icon" aria-hidden="true">🔴</span><div class="rule-text">Volume candle turun tapi harga stagnan <b>> 30 menit</b> = momentum habis.</div></div>
+      <div class="rule-block"><span class="rule-icon" aria-hidden="true">🔴</span><div class="rule-text">IHSG tiba-tiba jebol <b>-0.7% dari high hari ini</b> = exit semua.</div></div>
+      <div class="rule-block"><span class="rule-icon" aria-hidden="true">🔴</span><div class="rule-text">Ada <b>berita negatif mendadak</b> — exit tanpa pikir panjang.</div></div>
+      <div class="rule-block"><span class="rule-icon" aria-hidden="true">🟡</span><div class="rule-text">Jam <b>> 15:00</b> dan profit sudah > 1.5% — pertimbangkan TP semua.</div></div>
     </div>
 
-    <div class="phase">Pagi besok (sebelum market buka)</div>
-
-    <div class="step">
-      <div class="num pagi">4</div>
-      <div class="step-body">
-        <div class="step-title">Cek kondisi market global jam 08:00 – 09:00</div>
-        <div class="step-desc">Lihat: Dow Jones / Nasdaq tutup naik atau turun semalam? Rupiah melemah tajam? Harga minyak atau komoditas bergerak ekstrem? Kalau semua negatif, <b>mode defensif — kurangi ukuran posisi atau skip hari ini.</b></div>
+    <div id="tab-checklist" class="panel">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <div class="section-title">Checklist Before Buying</div>
+        <button onclick="resetChecklist()" style="font-size:12px; padding:4px 10px; background: rgba(255,255,255,0.05); border:1px solid var(--color-border-secondary); color:#fff; border-radius:6px; cursor:pointer;">Reset</button>
       </div>
-    </div>
 
-    <div class="step">
-      <div class="num pagi">5</div>
-      <div class="step-body">
-        <div class="step-title">Cek IHSG futures / pre-market jam 08:45</div>
-        <div class="step-desc">Lihat indikasi awal IHSG. Kalau estimasi IHSG merah lebih dari <b>-0.7%</b>, siap-siap skip atau sangat selektif. Kalau hijau atau flat, lanjut ke langkah berikutnya.</div>
+      <div id="checklist">
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div><div class="check-label">Jam antara 09:10 – 11:00</div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div><div class="check-label">IHSG tidak merah lebih dari -0.7%</div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div><div class="check-label">Value transaksi > Rp 10 miliar</div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div><div class="check-label">Volume > rata-rata 20 hari</div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div><div class="check-label">Harga di atas MA5 dan MA20</div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div><div class="check-label">RSI antara 45 – 75</div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div><div class="check-label">Harga belum naik > 7% dari open</div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div><div class="check-label">Ada candle konfirmasi (breakout / mantul)</div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div><div class="check-label">Stop loss sudah ditentukan sebelum entry</div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div><div class="check-label">Risk:Reward minimal 1.5:1</div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-box"></div><div class="check-label">Bukan karena FOMO lihat orang lain beli</div>
+        </div>
       </div>
-    </div>
 
-    <div class="phase">Market buka (09:00 – 11:00)</div>
-
-    <div class="step">
-      <div class="num market">6</div>
-      <div class="step-body">
-        <div class="step-title">Tunggu 10 menit pertama — jangan langsung buy</div>
-        <div class="step-desc">Jam 09:00–09:10 itu sering chaos. Tunggu dulu. Amati: <b>IHSG mau ke mana, saham watchlist buka di mana, volume pagi seperti apa.</b></div>
+      <div class="score-bar" id="score-bar" style="margin-top:14px;">
+        <div>
+          <div class="score-num" id="score-num">0/11</div>
+          <div class="score-label">poin terpenuhi</div>
+        </div>
+        <div style="flex:1; text-align:right;">
+          <span class="verdict" id="verdict" style="background: var(--color-background-secondary); color: var(--color-text-secondary);">Belum aman</span>
+        </div>
       </div>
+      <div class="note" style="margin-top:8px; padding: 0 2px;">Kurang dari 8 poin = skip dulu. Jangan dipaksakan.</div>
+    </div>
+    </div>
+  </section>
+
+  <section id="hub-jurnal" class="module-section">
+    <div class="wrap">
+    <h2 class="sr-only">Jurnal trading dan kalkulator backtest scalping saham BEI</h2>
+
+    <div class="tab-bar">
+      <button class="tab active" onclick="showTab('jurnal')">Jurnal Trading</button>
+      <button class="tab" onclick="showTab('kalkulator')">Kalkulator Trade</button>
+      <button class="tab" onclick="showTab('backtest')">Statistik Backtest</button>
     </div>
 
-    <div class="step">
-      <div class="num market">7</div>
-      <div class="step-body">
-        <div class="step-title">Konfirmasi di Chartbit timeframe 5 menit</div>
-        <div class="step-desc">Buka kandidat di Chartbit. Pasang EMA5 + EMA20 + VWAP + Volume. Tunggu salah satu sinyal ini:<br>
-        <b>— Breakout:</b> harga tembus high 15 menit pertama dengan volume besar<br>
-        <b>— Mantul support:</b> koreksi ke support lalu candle konfirmasi naik<br>
-        <b>— Retest:</b> harga balik ke level breakout dan mantul</div>
+    <div id="tab-jurnal" class="panel active">
+      <div class="card">
+        <div class="sec">Tambah transaksi baru</div>
+        <div class="row">
+          <div class="field"><label>Tanggal</label><input type="date" id="j-tgl"></div>
+          <div class="field"><label>Kode saham</label><input type="text" id="j-kode" placeholder="BBRI" maxlength="6" style="text-transform:uppercase"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label>Screener dipakai</label>
+            <select id="j-screener">
+              <option value="Momentum Pagi">Momentum Pagi</option>
+              <option value="Volume Breakout">Volume Breakout</option>
+              <option value="Pullback Scalping">Pullback Scalping</option>
+              <option value="Lainnya">Lainnya</option>
+            </select>
+          </div>
+          <div class="field"><label>Jam entry</label><input type="time" id="j-entry-time"></div>
+        </div>
+        <div class="row3">
+          <div class="field"><label>Harga entry (Rp)</label><input type="number" id="j-entry" placeholder="5200"></div>
+          <div class="field"><label>Harga exit (Rp)</label><input type="number" id="j-exit" placeholder="5300"></div>
+          <div class="field"><label>Lot</label><input type="number" id="j-lot" placeholder="10"></div>
+        </div>
+        <div class="row3">
+          <div class="field"><label>Target SL (Rp)</label><input type="number" id="j-sl" placeholder="5100"></div>
+          <div class="field"><label>Target TP1 (Rp)</label><input type="number" id="j-tp" placeholder="5310"></div>
+          <div class="field"><label>Hasil</label>
+            <select id="j-hasil">
+              <option value="W">Win</option>
+              <option value="L">Loss</option>
+              <option value="BE">Breakeven</option>
+            </select>
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:10px"><label>Alasan entry & evaluasi</label><textarea id="j-notes" placeholder="Setup breakout valid, volume 2x, IHSG hijau..."></textarea></div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn-primary" onclick="tambahJurnal()">Simpan transaksi</button>
+          <span id="j-msg" style="font-size:12px;color:var(--color-text-secondary)"></span>
+        </div>
       </div>
-    </div>
 
-    <div class="step">
-      <div class="num market">8</div>
-      <div class="step-body">
-        <div class="step-title">Entry + pasang SL mental sebelum klik buy</div>
-        <div class="step-desc">Tentukan SL <b>sebelum</b> klik buy. Kalau SL nggak jelas, jangan masuk. Gunakan kalkulator trade (di tools jurnal) untuk cek lot yang pas dengan risiko 1–2% modal.</div>
-      </div>
-    </div>
-
-    <div class="phase">Siang – sore (exit)</div>
-
-    <div class="step">
-      <div class="num exit">9</div>
-      <div class="step-body">
-        <div class="step-title">TP bertahap, jangan rakus</div>
-        <div class="step-desc"><b>+2%</b> → jual 40–50% posisi. <b>+3.5%</b> → jual lagi 30%. Sisanya trailing atau exit sebelum 15:30.</div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="num exit">10</div>
-      <div class="step-body">
-        <div class="step-title">Jam 15:30 — wajib keluar</div>
-        <div class="step-desc">Tidak ada alasan untuk tidak keluar. <b>Scalping = tidak boleh bermalam.</b> Tulis hasil di jurnal setelah market tutup.</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- FILTER STOCKBIT -->
-<div id="tab-filter" class="panel">
-  <div class="card">
-    <div class="sec">Cara input di Stockbit — Create Screener</div>
-    <div class="step-desc" style="margin-bottom:12px;font-size:13px">Buka Stockbit → Screener → <b>Create Screener</b> → klik <b>Add a Rule</b> → input satu per satu filter ini.</div>
-
-    <div class="sec" style="margin-top:4px">Screener Momentum Pagi (pakai ini dulu)</div>
-    <div class="filter-box">
-      <div class="filter-row"><span class="fl">Price Change Today (%)</span><span class="fv">> 0.5 dan < 6</span></div>
-      <div class="filter-row"><span class="fl">Value (hari ini)</span><span class="fv">> 10.000.000.000</span></div>
-      <div class="filter-row"><span class="fl">Volume / Volume MA20</span><span class="fv">> 1.5</span></div>
-      <div class="filter-row"><span class="fl">Market Cap</span><span class="fv">> 500.000.000.000</span></div>
-      <div class="filter-row"><span class="fl">Close > MA5</span><span class="fv">Centang / set True</span></div>
-      <div class="filter-row"><span class="fl">Close > MA20</span><span class="fv">Centang / set True</span></div>
-      <div class="filter-row"><span class="fl">RSI (14)</span><span class="fv">> 50 dan < 72</span></div>
-    </div>
-    <div class="alert-green" style="margin-top:8px">Simpan screener ini dengan nama "Momentum Pagi Scalping" biar besok tinggal klik.</div>
-
-    <div class="sec" style="margin-top:16px">Screener Volume Breakout (pakai kalau mau cari yang lebih agresif)</div>
-    <div class="filter-box">
-      <div class="filter-row"><span class="fl">Volume / Volume MA20</span><span class="fv">> 2</span></div>
-      <div class="filter-row"><span class="fl">Price Change Today (%)</span><span class="fv">> 1 dan < 8</span></div>
-      <div class="filter-row"><span class="fl">Value (hari ini)</span><span class="fv">> 15.000.000.000</span></div>
-      <div class="filter-row"><span class="fl">Market Cap</span><span class="fv">> 300.000.000.000</span></div>
-      <div class="filter-row"><span class="fl">Close > MA5</span><span class="fv">Centang / set True</span></div>
-      <div class="filter-row"><span class="fl">RSI (14)</span><span class="fv">> 45 dan < 75</span></div>
-    </div>
-
-    <div class="alert-amber" style="margin-top:8px">Catatan: Stockbit Screener pakai data EOD (kemarin). Hasil screener ini adalah <b>kandidat malam ini</b>, bukan sinyal beli langsung besok pagi. Konfirmasi wajib di Chartbit saat market buka.</div>
-  </div>
-</div>
-
-<!-- CHARTBIT -->
-<div id="tab-chartbit" class="panel">
-  <div class="card">
-    <div class="sec">Setup Chartbit untuk konfirmasi intraday</div>
-
-    <div class="step">
-      <div class="num pagi" style="font-size:11px">1</div>
-      <div class="step-body">
-        <div class="step-title">Timeframe yang dipakai</div>
-        <div class="step-desc">Malam → cek Daily chart dulu. Besok pagi saat market buka → pindah ke <b>5 menit</b>. Kalau ingin lebih santai, bisa pakai <b>15 menit</b>.</div>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="num pagi" style="font-size:11px">2</div>
-      <div class="step-body">
-        <div class="step-title">Indikator yang dipasang di Chartbit</div>
-        <div class="step-desc">
-          <b>EMA 5</b> (warna hijau) — trend sangat pendek<br>
-          <b>EMA 20</b> (warna merah) — trend pendek<br>
-          <b>VWAP</b> — patokan harga wajar intraday<br>
-          <b>Volume bar</b> — deteksi lonjakan aktivitas<br>
-          <b>RSI 14</b> — opsional tapi berguna
+      <div class="card" id="jurnal-list-card" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div class="sec" style="margin:0">Riwayat transaksi</div>
+          <button class="btn-danger" onclick="clearJurnal()">Hapus semua</button>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="log-table">
+            <thead><tr>
+              <th style="width:80px">Tanggal</th>
+              <th style="width:55px">Saham</th>
+              <th style="width:75px">Entry</th>
+              <th style="width:75px">Exit</th>
+              <th style="width:45px">Lot</th>
+              <th style="width:80px">P/L bersih</th>
+              <th style="width:45px">Hasil</th>
+              <th style="width:30px"></th>
+            </tr></thead>
+            <tbody id="jurnal-tbody"></tbody>
+          </table>
         </div>
       </div>
     </div>
 
-    <div class="step">
-      <div class="num market" style="font-size:11px">3</div>
-      <div class="step-body">
-        <div class="step-title">Sinyal entry yang valid di Chartbit</div>
-        <div class="step-desc">
-          <b>Breakout:</b> candle 5 menit tembus high candle sebelumnya + volume lebih besar<br>
-          <b>Mantul VWAP:</b> harga turun ke VWAP, candle konfirmasi naik, volume masuk<br>
-          <b>EMA cross:</b> EMA5 silang ke atas EMA20 disertai volume naik
+    <div id="tab-kalkulator" class="panel">
+      <div class="card">
+        <div class="sec">Kalkulator per trade</div>
+        <div class="row">
+          <div class="field"><label>Modal total (Rp)</label><input type="number" id="k-modal" placeholder="10000000" oninput="hitung()"></div>
+          <div class="field"><label>Risiko per trade (%)</label><input type="number" id="k-risk-pct" placeholder="2" step="0.1" oninput="hitung()"></div>
+        </div>
+        <div class="row3">
+          <div class="field"><label>Harga entry (Rp)</label><input type="number" id="k-entry" placeholder="5200" oninput="hitung()"></div>
+          <div class="field"><label>Stop loss (Rp)</label><input type="number" id="k-sl" placeholder="5100" oninput="hitung()"></div>
+          <div class="field"><label>Target TP (Rp)</label><input type="number" id="k-tp" placeholder="5410" oninput="hitung()"></div>
+        </div>
+
+        <div class="calc-out" id="k-out" style="display:none">
+          <div class="calc-row"><span style="color:var(--color-text-secondary)">Risiko per trade</span><span id="k-risiko-rp"></span></div>
+          <div class="calc-row"><span style="color:var(--color-text-secondary)">Rekomendasi lot</span><span id="k-lot"></span></div>
+          <div class="calc-row"><span style="color:var(--color-text-secondary)">Modal dipakai</span><span id="k-modal-dipakai"></span></div>
+          <div class="calc-row"><span style="color:var(--color-text-secondary)">Risk % dari modal</span><span id="k-risk-check"></span></div>
+          <div class="calc-row"><span style="color:var(--color-text-secondary)">Fee beli (0.15%)</span><span id="k-fee-beli"></span></div>
+          <div class="calc-row"><span style="color:var(--color-text-secondary)">Fee jual (0.25%)</span><span id="k-fee-jual"></span></div>
+          <div class="divider"></div>
+          <div class="calc-row"><span style="color:var(--color-text-secondary)">Potensi loss (bersih)</span><span id="k-pl-loss" class="red"></span></div>
+          <div class="calc-row"><span style="color:var(--color-text-secondary)">Potensi profit TP (bersih)</span><span id="k-pl-tp" class="green"></span></div>
+          <div class="calc-row"><span>Risk:Reward</span><span id="k-rr" style="font-weight:500"></span></div>
+        </div>
+        <div id="k-verdict" style="margin-top:8px"></div>
+      </div>
+    </div>
+
+    <div id="tab-backtest" class="panel">
+      <div class="card">
+        <div class="sec">Statistik backtest otomatis</div>
+        <div class="note" style="margin-bottom:12px">Dihitung dari semua transaksi di jurnal yang sudah disimpan.</div>
+        <div class="metric-grid" id="bt-metrics">
+          <div class="metric"><div class="mlabel">Total trade</div><div class="mval" id="bt-total">0</div></div>
+          <div class="metric"><div class="mlabel">Win</div><div class="mval green" id="bt-win">0</div></div>
+          <div class="metric"><div class="mlabel">Loss</div><div class="mval red" id="bt-loss">0</div></div>
+          <div class="metric"><div class="mlabel">Winrate</div><div class="mval" id="bt-wr">0%</div></div>
+        </div>
+        <div class="metric-grid">
+          <div class="metric"><div class="mlabel">Avg gain bersih</div><div class="mval green" id="bt-avg-gain">-</div></div>
+          <div class="metric"><div class="mlabel">Avg loss bersih</div><div class="mval red" id="bt-avg-loss">-</div></div>
+          <div class="metric"><div class="mlabel">Reward:Risk</div><div class="mval" id="bt-rr">-</div></div>
+          <div class="metric"><div class="mlabel">Expectancy</div><div class="mval" id="bt-exp">-</div></div>
+        </div>
+        <div class="metric-grid">
+          <div class="metric"><div class="mlabel">Total P/L bersih</div><div class="mval" id="bt-total-pl">Rp 0</div></div>
+          <div class="metric"><div class="mlabel">Max drawdown</div><div class="mval red" id="bt-dd">-</div></div>
+          <div class="metric"><div class="mlabel">Best trade</div><div class="mval green" id="bt-best">-</div></div>
+          <div class="metric"><div class="mlabel">Worst trade</div><div class="mval red" id="bt-worst">-</div></div>
+        </div>
+        <div class="divider"></div>
+        <div class="sec">Rumus yang dipakai</div>
+        <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.8">
+          <div>P/L bersih = (Exit - Entry) x Lot x 100 - Fee beli - Fee jual</div>
+          <div>Fee beli = Entry x Lot x 100 x 0.0015</div>
+          <div>Fee jual = Exit x Lot x 100 x 0.0025</div>
+          <div>Winrate = Win / Total x 100%</div>
+          <div>Expectancy = (Winrate x Avg Gain) - ((1-Winrate) x Avg Loss)</div>
+          <div>Max drawdown = kerugian kumulatif terbesar berturut-turut</div>
+        </div>
+        <div id="bt-verdict" style="margin-top:12px"></div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <section id="hub-planning" class="module-section">
+    <div class="w">
+    <h2 class="sr-only">Planning scalping harian — panduan step by step Stockbit dan Chartbit</h2>
+
+    <div class="tab-bar">
+      <button class="tab active" onclick="sw('alur')">Alur Kerja</button>
+      <button class="tab" onclick="sw('filter')">Filter Stockbit</button>
+      <button class="tab" onclick="sw('chartbit')">Konfirmasi Chartbit</button>
+      <button class="tab" onclick="sw('bisa')">Bisa vs Tidak</button>
+    </div>
+
+    <div id="tab-alur" class="panel active">
+      <div class="card">
+        <div class="phase">Malam ini (sebelum tidur)</div>
+
+        <div class="step">
+          <div class="num malam">1</div>
+          <div class="step-body">
+            <div class="step-title">Jalankan screener di Stockbit</div>
+            <div class="step-desc">Buka Stockbit → Screener → Create Screener. Input filter <b>Momentum Pagi</b> (lihat tab Filter Stockbit). Catat 5–10 saham kandidat yang lolos.</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num malam">2</div>
+          <div class="step-body">
+            <div class="step-title">Cek chart harian kandidat di Chartbit</div>
+            <div class="step-desc">Buka tiap saham di Chartbit, timeframe Daily. Pastikan:<br><b>Harga > MA20, volume kemarin di atas rata-rata, RSI 45–72, tidak dekat resistance besar.</b></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num malam">3</div>
+          <div class="step-body">
+            <div class="step-title">Buat watchlist pendek</div>
+            <div class="step-desc">Pilih maksimal <b>3–5 saham terbaik</b>. Catat: level support, level resistance, dan rencana SL awal masing-masing. Jangan lebih dari 5 — fokus lebih penting dari kuantitas.</div>
+          </div>
+        </div>
+
+        <div class="phase">Pagi besok (sebelum market buka)</div>
+
+        <div class="step">
+          <div class="num pagi">4</div>
+          <div class="step-body">
+            <div class="step-title">Cek kondisi market global jam 08:00 – 09:00</div>
+            <div class="step-desc">Lihat: Dow Jones / Nasdaq tutup naik atau turun semalam? Rupiah melemah tajam? Harga minyak atau komoditas bergerak ekstrem? Kalau semua negatif, <b>mode defensif — kurangi ukuran posisi atau skip hari ini.</b></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num pagi">5</div>
+          <div class="step-body">
+            <div class="step-title">Cek IHSG futures / pre-market jam 08:45</div>
+            <div class="step-desc">Lihat indikasi awal IHSG. Kalau estimasi IHSG merah lebih dari <b>-0.7%</b>, siap-siap skip atau sangat selektif. Kalau hijau atau flat, lanjut ke langkah berikutnya.</div>
+          </div>
+        </div>
+
+        <div class="phase">Market buka (09:00 – 11:00)</div>
+
+        <div class="step">
+          <div class="num market">6</div>
+          <div class="step-body">
+            <div class="step-title">Tunggu 10 menit pertama — jangan langsung buy</div>
+            <div class="step-desc">Jam 09:00–09:10 itu sering chaos. Tunggu dulu. Amati: <b>IHSG mau ke mana, saham watchlist buka di mana, volume pagi seperti apa.</b></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num market">7</div>
+          <div class="step-body">
+            <div class="step-title">Konfirmasi di Chartbit timeframe 5 menit</div>
+            <div class="step-desc">Buka kandidat di Chartbit. Pasang EMA5 + EMA20 + VWAP + Volume. Tunggu salah satu sinyal ini:<br>
+            <b>— Breakout:</b> harga tembus high 15 menit pertama dengan volume besar<br>
+            <b>— Mantul support:</b> koreksi ke support lalu candle konfirmasi naik<br>
+            <b>— Retest:</b> harga balik ke level breakout dan mantul</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num market">8</div>
+          <div class="step-body">
+            <div class="step-title">Entry + pasang SL mental sebelum klik buy</div>
+            <div class="step-desc">Tentukan SL <b>sebelum</b> klik buy. Kalau SL nggak jelas, jangan masuk. Gunakan kalkulator trade (di tools jurnal) untuk cek lot yang pas dengan risiko 1–2% modal.</div>
+          </div>
+        </div>
+
+        <div class="phase">Siang – sore (exit)</div>
+
+        <div class="step">
+          <div class="num exit">9</div>
+          <div class="step-body">
+            <div class="step-title">TP bertahap, jangan rakus</div>
+            <div class="step-desc"><b>+2%</b> → jual 40–50% posisi. <b>+3.5%</b> → jual lagi 30%. Sisanya trailing atau exit sebelum 15:30.</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num exit">10</div>
+          <div class="step-body">
+            <div class="step-title">Jam 15:30 — wajib keluar</div>
+            <div class="step-desc">Tidak ada alasan untuk tidak keluar. <b>Scalping = tidak boleh bermalam.</b> Tulis hasil di jurnal setelah market tutup.</div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="step">
-      <div class="num exit" style="font-size:11px">4</div>
-      <div class="step-body">
-        <div class="step-title">Sinyal bahaya di Chartbit — jangan masuk</div>
-        <div class="step-desc">
-          <b>Upper shadow panjang</b> di candle terakhir = ada tekanan jual<br>
-          <b>Volume turun</b> padahal harga naik = momentum lemah<br>
-          <b>Harga di bawah VWAP</b> dan tidak bisa balik = distribusi<br>
-          <b>Candle doji berulang</b> di resistance = buyer exhausted
+    <div id="tab-filter" class="panel">
+      <div class="card">
+        <div class="sec">Cara input di Stockbit — Create Screener</div>
+        <div class="step-desc" style="margin-bottom:12px;font-size:13px">Buka Stockbit → Screener → <b>Create Screener</b> → klik <b>Add a Rule</b> → input satu per satu filter ini.</div>
+
+        <div class="sec" style="margin-top:4px">Screener Momentum Pagi (pakai ini dulu)</div>
+        <div class="filter-box">
+          <div class="filter-row"><span class="fl">Price Change Today (%)</span><span class="fv">> 0.5 dan < 6</span></div>
+          <div class="filter-row"><span class="fl">Value (hari ini)</span><span class="fv">> 10.000.000.000</span></div>
+          <div class="filter-row"><span class="fl">Volume / Volume MA20</span><span class="fv">> 1.5</span></div>
+          <div class="filter-row"><span class="fl">Market Cap</span><span class="fv">> 500.000.000.000</span></div>
+          <div class="filter-row"><span class="fl">Close > MA5</span><span class="fv">Centang / set True</span></div>
+          <div class="filter-row"><span class="fl">Close > MA20</span><span class="fv">Centang / set True</span></div>
+          <div class="filter-row"><span class="fl">RSI (14)</span><span class="fv">> 50 dan < 72</span></div>
+        </div>
+        <div class="alert-green" style="margin-top:8px">Simpan screener ini dengan nama "Momentum Pagi Scalping" biar besok tinggal klik.</div>
+
+        <div class="sec" style="margin-top:16px">Screener Volume Breakout (pakai kalau mau cari yang lebih agresif)</div>
+        <div class="filter-box">
+          <div class="filter-row"><span class="fl">Volume / Volume MA20</span><span class="fv">> 2</span></div>
+          <div class="filter-row"><span class="fl">Price Change Today (%)</span><span class="fv">> 1 dan < 8</span></div>
+          <div class="filter-row"><span class="fl">Value (hari ini)</span><span class="fv">> 15.000.000.000</span></div>
+          <div class="filter-row"><span class="fl">Market Cap</span><span class="fv">> 300.000.000.000</span></div>
+          <div class="filter-row"><span class="fl">Close > MA5</span><span class="fv">Centang / set True</span></div>
+          <div class="filter-row"><span class="fl">RSI (14)</span><span class="fv">> 45 dan < 75</span></div>
+        </div>
+
+        <div class="alert-amber" style="margin-top:8px">Catatan: Stockbit Screener pakai data EOD (kemarin). Hasil screener ini adalah <b>kandidat malam ini</b>, bukan sinyal beli langsung besok pagi. Konfirmasi wajib di Chartbit saat market buka.</div>
+      </div>
+    </div>
+
+    <div id="tab-chartbit" class="panel">
+      <div class="card">
+        <div class="sec">Setup Chartbit untuk konfirmasi intraday</div>
+
+        <div class="step">
+          <div class="num pagi" style="font-size:11px">1</div>
+          <div class="step-body">
+            <div class="step-title">Timeframe yang dipakai</div>
+            <div class="step-desc">Malam → cek Daily chart dulu. Besok pagi saat market buka → pindah ke <b>5 menit</b>. Kalau ingin lebih santai, bisa pakai <b>15 menit</b>.</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num pagi" style="font-size:11px">2</div>
+          <div class="step-body">
+            <div class="step-title">Indikator yang dipasang di Chartbit</div>
+            <div class="step-desc">
+              <b>EMA 5</b> (warna hijau) — trend sangat pendek<br>
+              <b>EMA 20</b> (warna merah) — trend pendek<br>
+              <b>VWAP</b> — patokan harga wajar intraday<br>
+              <b>Volume bar</b> — deteksi lonjakan aktivitas<br>
+              <b>RSI 14</b> — opsional tapi berguna
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num market" style="font-size:11px">3</div>
+          <div class="step-body">
+            <div class="step-title">Sinyal entry yang valid di Chartbit</div>
+            <div class="step-desc">
+              <b>Breakout:</b> candle 5 menit tembus high candle sebelumnya + volume lebih besar<br>
+              <b>Mantul VWAP:</b> harga turun ke VWAP, candle konfirmasi naik, volume masuk<br>
+              <b>EMA cross:</b> EMA5 silang ke atas EMA20 disertai volume naik
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num exit" style="font-size:11px">4</div>
+          <div class="step-body">
+            <div class="step-title">Sinyal bahaya di Chartbit — jangan masuk</div>
+            <div class="step-desc">
+              <b>Upper shadow panjang</b> di candle terakhir = ada tekanan jual<br>
+              <b>Volume turun</b> padahal harga naik = momentum lemah<br>
+              <b>Harga di bawah VWAP</b> dan tidak bisa balik = distribusi<br>
+              <b>Candle doji berulang</b> di resistance = buyer exhausted
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- BISA vs TIDAK -->
-<div id="tab-bisa" class="panel">
-  <div class="card">
-    <div class="sec">Filter yang bisa diset di Stockbit vs yang tidak bisa</div>
-    <div class="two">
-      <div>
-        <div style="font-size:12px;font-weight:500;color:#3B6D11;margin-bottom:8px">Bisa diset di Stockbit</div>
-        <div class="filter-box" style="background:#EAF3DE">
-          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">Price Change %</div>
-          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">Volume (absolut)</div>
-          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">Volume MA20</div>
-          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">Value transaksi</div>
-          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">Market Cap</div>
-          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">Close vs MA5 / MA20</div>
-          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">RSI (14)</div>
-          <div style="font-size:12px;color:#3B6D11;padding:3px 0">MA5 vs MA20</div>
+    <div id="tab-bisa" class="panel">
+      <div class="card">
+        <div class="sec">Filter yang bisa diset di Stockbit vs yang tidak bisa</div>
+        <div class="two">
+          <div>
+            <div style="font-size:12px;font-weight:500;color:#3B6D11;margin-bottom:8px">Bisa diset di Stockbit</div>
+            <div class="filter-box" style="background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.15)">
+              <div style="font-size:12px;color:#34d399;padding:3px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)">Price Change %</div>
+              <div style="font-size:12px;color:#34d399;padding:3px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)">Volume (absolut)</div>
+              <div style="font-size:12px;color:#34d399;padding:3px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)">Volume MA20</div>
+              <div style="font-size:12px;color:#34d399;padding:3px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)">Value transaksi</div>
+              <div style="font-size:12px;color:#34d399;padding:3px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)">Market Cap</div>
+              <div style="font-size:12px;color:#34d399;padding:3px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)">Close vs MA5 / MA20</div>
+              <div style="font-size:12px;color:#34d399;padding:3px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)">RSI (14)</div>
+              <div style="font-size:12px;color:#34d399;padding:3px 0">MA5 vs MA20</div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:500;color:#A32D2D;margin-bottom:8px">Tidak bisa / manual di Chartbit</div>
+            <div class="filter-box" style="background: rgba(244, 63, 94, 0.05); border: 1px solid rgba(244, 63, 94, 0.15)">
+              <div style="font-size:12px;color:#fb7185;padding:3px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)">VWAP real-time</div>
+              <div style="font-size:12px;color:#fb7185;padding:3px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)">Spread bid-offer</div>
+              <div style="font-size:12px;color:#fb7185;padding:3px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)">Order book tebal/tipis</div>
+              <div style="font-size:12px;color:#fb7185;padding:3px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)">Candle intraday</div>
+              <div style="font-size:12px;color:#fb7185;padding:3px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)">Opening range breakout</div>
+              <div style="font-size:12px;color:#fb7185;padding:3px 0">Kondisi IHSG real-time</div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div>
-        <div style="font-size:12px;font-weight:500;color:#A32D2D;margin-bottom:8px">Tidak bisa / manual di Chartbit</div>
-        <div class="filter-box" style="background:#FCEBEB">
-          <div style="font-size:12px;color:#A32D2D;padding:3px 0;border-bottom:0.5px solid #F7C1C1">VWAP real-time</div>
-          <div style="font-size:12px;color:#A32D2D;padding:3px 0;border-bottom:0.5px solid #F7C1C1">Spread bid-offer</div>
-          <div style="font-size:12px;color:#A32D2D;padding:3px 0;border-bottom:0.5px solid #F7C1C1">Order book tebal/tipis</div>
-          <div style="font-size:12px;color:#A32D2D;padding:3px 0;border-bottom:0.5px solid #F7C1C1">Candle intraday</div>
-          <div style="font-size:12px;color:#A32D2D;padding:3px 0;border-bottom:0.5px solid #F7C1C1">Opening range breakout</div>
-          <div style="font-size:12px;color:#A32D2D;padding:3px 0">Kondisi IHSG real-time</div>
+        <div class="alert-amber" style="margin-top:12px">
+          <b>Kesimpulan:</b> Stockbit Screener = alat cari kandidat malam ini. Chartbit = alat konfirmasi besok pagi. Keduanya harus dipakai bersama — screener saja tidak cukup untuk scalping.
         </div>
       </div>
     </div>
-    <div class="alert-amber" style="margin-top:12px">
-      <b>Kesimpulan:</b> Stockbit Screener = alat cari kandidat malam ini. Chartbit = alat konfirmasi besok pagi. Keduanya harus dipakai bersama — screener saja tidak cukup untuk scalping.
     </div>
-  </div>
-</div>
-
-</div>
-
-<script>
-function sw(name) {
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('tab-'+name).classList.add('active');
-  event.target.classList.add('active');
-}
-</script>
+  </section>
