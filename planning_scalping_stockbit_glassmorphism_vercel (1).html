@@ -1,0 +1,811 @@
+
+<style>
+:root{
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --color-bg-0:#070b18;
+  --color-bg-1:#0b1024;
+  --color-bg-2:#101936;
+  --color-text-primary:#f7fbff;
+  --color-text-secondary:#b8c7dc;
+  --color-text-tertiary:#7f90aa;
+  --color-border-secondary:rgba(148,163,184,.26);
+  --color-border-tertiary:rgba(148,163,184,.16);
+  --color-background-primary:rgba(15,23,42,.58);
+  --color-background-secondary:rgba(255,255,255,.07);
+  --border-radius-md:16px;
+  --border-radius-lg:24px;
+  --shadow-soft:0 20px 54px rgba(0,0,0,.28);
+  --shadow-card:0 14px 34px rgba(2,6,23,.22);
+  --cyan:#22d3ee;
+  --violet:#8b5cf6;
+  --emerald:#34d399;
+  --amber:#f59e0b;
+  --rose:#fb7185;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html{
+  min-height:100%;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(34,211,238,.22), transparent 30rem),
+    radial-gradient(circle at 88% 4%, rgba(139,92,246,.22), transparent 28rem),
+    radial-gradient(circle at 50% 100%, rgba(16,185,129,.14), transparent 26rem),
+    linear-gradient(145deg,var(--color-bg-0),var(--color-bg-1) 48%,#050812);
+  color:var(--color-text-primary);
+  overflow-x:hidden;
+}
+
+body{
+  min-height:100vh;
+  color:var(--color-text-primary);
+  background:transparent;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size:42px 42px;
+  mask-image:linear-gradient(to bottom, rgba(0,0,0,.45), transparent 78%);
+}
+
+.w{
+  position:relative;
+  isolation:isolate;
+  width:min(100%,920px);
+  margin:0 auto;
+  padding:clamp(14px,3vw,34px);
+  font-family:var(--font-sans);
+}
+
+.w::before,
+.w::after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  border-radius:999px;
+  pointer-events:none;
+  filter:blur(12px);
+  opacity:.45;
+}
+
+.w::before{
+  width:180px;
+  height:180px;
+  top:8px;
+  right:5%;
+  background:radial-gradient(circle,rgba(34,211,238,.34),transparent 68%);
+}
+
+.w::after{
+  width:220px;
+  height:220px;
+  left:-80px;
+  bottom:10%;
+  background:radial-gradient(circle,rgba(139,92,246,.32),transparent 68%);
+}
+
+.sr-only{
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
+
+.card{
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.105),rgba(255,255,255,.045)),
+    var(--color-background-primary);
+  border:1px solid rgba(226,232,240,.16);
+  border-radius:var(--border-radius-lg);
+  padding:clamp(15px,2.6vw,24px);
+  margin-bottom:14px;
+  box-shadow:var(--shadow-soft);
+  backdrop-filter:blur(14px) saturate(136%);
+  -webkit-backdrop-filter:blur(14px) saturate(136%);
+  transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
+}
+
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 16% 0%, rgba(34,211,238,.15), transparent 30%),
+    radial-gradient(circle at 100% 10%, rgba(139,92,246,.14), transparent 28%);
+}
+
+.card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(226,232,240,.25);
+  box-shadow:0 24px 60px rgba(0,0,0,.32);
+}
+
+.sec{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+  font-weight:750;
+  letter-spacing:.01em;
+  color:var(--color-text-primary);
+  margin-bottom:12px;
+}
+
+.sec::before{
+  content:"";
+  width:8px;
+  height:8px;
+  border-radius:999px;
+  background:linear-gradient(135deg,var(--cyan),var(--violet));
+  box-shadow:0 0 18px rgba(34,211,238,.48);
+  flex:0 0 auto;
+}
+
+.phase{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.105em;
+  color:#dce7ff;
+  margin:18px 0 9px;
+  text-transform:uppercase;
+}
+
+.phase:first-child{margin-top:2px}
+
+.phase::before{
+  content:"";
+  width:24px;
+  height:1px;
+  background:linear-gradient(90deg,var(--cyan),transparent);
+}
+
+.step{
+  position:relative;
+  display:flex;
+  gap:13px;
+  padding:13px 0;
+  border-bottom:1px solid rgba(148,163,184,.14);
+  align-items:flex-start;
+  transition:transform .22s ease,background .22s ease,border-color .22s ease;
+}
+
+.step::before{
+  content:"";
+  position:absolute;
+  inset:4px -8px;
+  border-radius:18px;
+  background:rgba(255,255,255,.045);
+  opacity:0;
+  transition:opacity .22s ease;
+  pointer-events:none;
+}
+
+.step:hover{
+  transform:translateX(2px);
+  border-color:rgba(148,163,184,.22);
+}
+
+.step:hover::before{opacity:1}
+
+.step:last-child{border-bottom:none}
+
+.num{
+  position:relative;
+  z-index:1;
+  width:32px;
+  height:32px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:800;
+  flex-shrink:0;
+  margin-top:1px;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.2);
+  box-shadow:0 10px 22px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.28);
+}
+
+.num.malam{background:linear-gradient(135deg,#2563eb,#22d3ee)}
+.num.pagi{background:linear-gradient(135deg,#059669,#34d399)}
+.num.market{background:linear-gradient(135deg,#d97706,#fbbf24)}
+.num.exit{background:linear-gradient(135deg,#e11d48,#fb7185)}
+
+.step-body{
+  position:relative;
+  z-index:1;
+  flex:1;
+  min-width:0;
+}
+
+.step-title{
+  font-size:13.5px;
+  font-weight:760;
+  color:#f8fbff;
+  margin-bottom:5px;
+  line-height:1.35;
+}
+
+.step-desc{
+  font-size:12.5px;
+  color:var(--color-text-secondary);
+  line-height:1.72;
+}
+
+.step-desc b{
+  font-weight:760;
+  color:#ffffff;
+}
+
+.badge{
+  display:inline-block;
+  font-size:11px;
+  padding:3px 9px;
+  border-radius:999px;
+  font-weight:700;
+  margin-right:5px;
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16);
+}
+
+.b-blue{background:rgba(34,211,238,.14);color:#8eeaff}
+.b-green{background:rgba(52,211,153,.14);color:#a7f3d0}
+.b-amber{background:rgba(245,158,11,.16);color:#fde68a}
+.b-red{background:rgba(251,113,133,.15);color:#fecdd3}
+.b-gray{background:rgba(148,163,184,.13);color:#d2dbe8}
+
+.filter-box{
+  position:relative;
+  overflow:hidden;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(226,232,240,.13);
+  border-radius:var(--border-radius-md);
+  padding:10px 14px;
+  margin-top:8px;
+  box-shadow:var(--shadow-card);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
+
+.filter-box::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.07),transparent 42%);
+}
+
+.filter-row{
+  position:relative;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  font-size:12.5px;
+  padding:8px 0;
+  border-bottom:1px solid rgba(148,163,184,.13);
+}
+
+.filter-row:last-child{border-bottom:none}
+
+.fl{
+  color:var(--color-text-secondary);
+  min-width:0;
+}
+
+.fv{
+  font-weight:800;
+  color:#f8fafc;
+  text-align:right;
+  white-space:normal;
+}
+
+.alert-box,
+.alert-red,
+.alert-green,
+.alert-amber{
+  position:relative;
+  overflow:hidden;
+  border-radius:var(--border-radius-md);
+  padding:11px 14px;
+  margin-top:6px;
+  font-size:12.5px;
+  line-height:1.68;
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 12px 26px rgba(0,0,0,.18);
+  backdrop-filter:blur(9px);
+  -webkit-backdrop-filter:blur(9px);
+}
+
+.alert-box::before,
+.alert-red::before,
+.alert-green::before,
+.alert-amber::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 54%);
+}
+
+.alert-red{background:rgba(225,29,72,.14);color:#fecdd3}
+.alert-green{background:rgba(16,185,129,.14);color:#bbf7d0}
+.alert-amber{background:rgba(245,158,11,.15);color:#fde68a}
+
+.two{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.two > div{
+  min-width:0;
+}
+
+.two > div > div:first-child{
+  letter-spacing:.01em;
+}
+
+/* Mengalahkan style inline lama di bagian Bisa vs Tidak tanpa menyentuh HTML */
+.two .filter-box[style*="background:#EAF3DE"]{
+  background:rgba(16,185,129,.13)!important;
+  border-color:rgba(52,211,153,.2)!important;
+}
+
+.two .filter-box[style*="background:#FCEBEB"]{
+  background:rgba(225,29,72,.13)!important;
+  border-color:rgba(251,113,133,.2)!important;
+}
+
+.two .filter-box[style*="background:#EAF3DE"] > div{
+  color:#bbf7d0!important;
+  border-bottom-color:rgba(52,211,153,.22)!important;
+}
+
+.two .filter-box[style*="background:#FCEBEB"] > div{
+  color:#fecdd3!important;
+  border-bottom-color:rgba(251,113,133,.24)!important;
+}
+
+.tab-bar{
+  position:sticky;
+  top:0;
+  z-index:5;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+  padding:8px;
+  border-radius:22px;
+  background:rgba(6,11,28,.56);
+  border:1px solid rgba(226,232,240,.12);
+  box-shadow:0 12px 30px rgba(0,0,0,.2);
+  backdrop-filter:blur(14px) saturate(128%);
+  -webkit-backdrop-filter:blur(14px) saturate(128%);
+}
+
+.tab{
+  position:relative;
+  min-height:38px;
+  padding:8px 14px;
+  border-radius:15px;
+  border:1px solid rgba(226,232,240,.13);
+  background:rgba(255,255,255,.055);
+  cursor:pointer;
+  font-size:12.5px;
+  font-weight:720;
+  color:var(--color-text-secondary);
+  transition:transform .2s ease,background .2s ease,color .2s ease,border-color .2s ease,box-shadow .2s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.tab:hover{
+  color:#fff;
+  border-color:rgba(34,211,238,.34);
+  background:rgba(255,255,255,.095);
+  transform:translateY(-1px);
+}
+
+.tab.active{
+  color:#ffffff;
+  background:
+    linear-gradient(135deg,rgba(34,211,238,.32),rgba(139,92,246,.30)),
+    rgba(255,255,255,.08);
+  border-color:rgba(255,255,255,.24);
+  box-shadow:0 10px 24px rgba(34,211,238,.12), inset 0 1px 0 rgba(255,255,255,.22);
+}
+
+.panel{display:none}
+
+.panel.active{
+  display:block;
+  animation:panelIn .28s ease both;
+}
+
+@keyframes panelIn{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+@supports not ((backdrop-filter:blur(10px)) or (-webkit-backdrop-filter:blur(10px))){
+  .card,
+  .tab-bar,
+  .filter-box,
+  .alert-box,
+  .alert-red,
+  .alert-green,
+  .alert-amber{
+    background:#10182f;
+  }
+}
+
+@media(max-width:768px){
+  .w{
+    width:100%;
+    padding:14px;
+  }
+
+  .card{
+    border-radius:22px;
+    padding:15px;
+  }
+
+  .tab-bar{
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    overflow-y:hidden;
+    overscroll-behavior-x:contain;
+    scroll-snap-type:x proximity;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+
+  .tab-bar::-webkit-scrollbar{display:none}
+
+  .tab{
+    flex:0 0 auto;
+    scroll-snap-align:start;
+    white-space:nowrap;
+  }
+
+  .two{grid-template-columns:1fr}
+}
+
+@media(max-width:480px){
+  .w{
+    padding:12px;
+  }
+
+  .card{
+    padding:14px;
+    border-radius:20px;
+  }
+
+  .step{
+    gap:10px;
+    padding:12px 0;
+  }
+
+  .num{
+    width:30px;
+    height:30px;
+    border-radius:12px;
+    font-size:11.5px;
+  }
+
+  .step-title{
+    font-size:13px;
+  }
+
+  .step-desc,
+  .filter-row,
+  .alert-box,
+  .alert-red,
+  .alert-green,
+  .alert-amber{
+    font-size:12px;
+  }
+
+  .filter-box{
+    padding:9px 11px;
+  }
+
+  .filter-row{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:3px;
+  }
+
+  .fv{
+    text-align:left;
+  }
+
+  .tab{
+    min-height:38px;
+    padding:8px 12px;
+  }
+}
+
+@media(max-width:380px){
+  .w{padding:10px}
+  .card{padding:12px}
+  .step-desc{line-height:1.65}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,
+  *::before,
+  *::after{
+    animation:none!important;
+    transition:none!important;
+    scroll-behavior:auto!important;
+  }
+
+  .card:hover,
+  .step:hover,
+  .tab:hover{
+    transform:none!important;
+  }
+}
+</style>
+
+<div class="w">
+<h2 class="sr-only">Planning scalping harian — panduan step by step Stockbit dan Chartbit</h2>
+
+<div class="tab-bar">
+  <button class="tab active" onclick="sw('alur')">Alur Kerja</button>
+  <button class="tab" onclick="sw('filter')">Filter Stockbit</button>
+  <button class="tab" onclick="sw('chartbit')">Konfirmasi Chartbit</button>
+  <button class="tab" onclick="sw('bisa')">Bisa vs Tidak</button>
+</div>
+
+<!-- ALUR KERJA -->
+<div id="tab-alur" class="panel active">
+  <div class="card">
+    <div class="phase">Malam ini (sebelum tidur)</div>
+
+    <div class="step">
+      <div class="num malam">1</div>
+      <div class="step-body">
+        <div class="step-title">Jalankan screener di Stockbit</div>
+        <div class="step-desc">Buka Stockbit → Screener → Create Screener. Input filter <b>Momentum Pagi</b> (lihat tab Filter Stockbit). Catat 5–10 saham kandidat yang lolos.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num malam">2</div>
+      <div class="step-body">
+        <div class="step-title">Cek chart harian kandidat di Chartbit</div>
+        <div class="step-desc">Buka tiap saham di Chartbit, timeframe Daily. Pastikan:<br><b>Harga > MA20, volume kemarin di atas rata-rata, RSI 45–72, tidak dekat resistance besar.</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num malam">3</div>
+      <div class="step-body">
+        <div class="step-title">Buat watchlist pendek</div>
+        <div class="step-desc">Pilih maksimal <b>3–5 saham terbaik</b>. Catat: level support, level resistance, dan rencana SL awal masing-masing. Jangan lebih dari 5 — fokus lebih penting dari kuantitas.</div>
+      </div>
+    </div>
+
+    <div class="phase">Pagi besok (sebelum market buka)</div>
+
+    <div class="step">
+      <div class="num pagi">4</div>
+      <div class="step-body">
+        <div class="step-title">Cek kondisi market global jam 08:00 – 09:00</div>
+        <div class="step-desc">Lihat: Dow Jones / Nasdaq tutup naik atau turun semalam? Rupiah melemah tajam? Harga minyak atau komoditas bergerak ekstrem? Kalau semua negatif, <b>mode defensif — kurangi ukuran posisi atau skip hari ini.</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num pagi">5</div>
+      <div class="step-body">
+        <div class="step-title">Cek IHSG futures / pre-market jam 08:45</div>
+        <div class="step-desc">Lihat indikasi awal IHSG. Kalau estimasi IHSG merah lebih dari <b>-0.7%</b>, siap-siap skip atau sangat selektif. Kalau hijau atau flat, lanjut ke langkah berikutnya.</div>
+      </div>
+    </div>
+
+    <div class="phase">Market buka (09:00 – 11:00)</div>
+
+    <div class="step">
+      <div class="num market">6</div>
+      <div class="step-body">
+        <div class="step-title">Tunggu 10 menit pertama — jangan langsung buy</div>
+        <div class="step-desc">Jam 09:00–09:10 itu sering chaos. Tunggu dulu. Amati: <b>IHSG mau ke mana, saham watchlist buka di mana, volume pagi seperti apa.</b></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num market">7</div>
+      <div class="step-body">
+        <div class="step-title">Konfirmasi di Chartbit timeframe 5 menit</div>
+        <div class="step-desc">Buka kandidat di Chartbit. Pasang EMA5 + EMA20 + VWAP + Volume. Tunggu salah satu sinyal ini:<br>
+        <b>— Breakout:</b> harga tembus high 15 menit pertama dengan volume besar<br>
+        <b>— Mantul support:</b> koreksi ke support lalu candle konfirmasi naik<br>
+        <b>— Retest:</b> harga balik ke level breakout dan mantul</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num market">8</div>
+      <div class="step-body">
+        <div class="step-title">Entry + pasang SL mental sebelum klik buy</div>
+        <div class="step-desc">Tentukan SL <b>sebelum</b> klik buy. Kalau SL nggak jelas, jangan masuk. Gunakan kalkulator trade (di tools jurnal) untuk cek lot yang pas dengan risiko 1–2% modal.</div>
+      </div>
+    </div>
+
+    <div class="phase">Siang – sore (exit)</div>
+
+    <div class="step">
+      <div class="num exit">9</div>
+      <div class="step-body">
+        <div class="step-title">TP bertahap, jangan rakus</div>
+        <div class="step-desc"><b>+2%</b> → jual 40–50% posisi. <b>+3.5%</b> → jual lagi 30%. Sisanya trailing atau exit sebelum 15:30.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num exit">10</div>
+      <div class="step-body">
+        <div class="step-title">Jam 15:30 — wajib keluar</div>
+        <div class="step-desc">Tidak ada alasan untuk tidak keluar. <b>Scalping = tidak boleh bermalam.</b> Tulis hasil di jurnal setelah market tutup.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FILTER STOCKBIT -->
+<div id="tab-filter" class="panel">
+  <div class="card">
+    <div class="sec">Cara input di Stockbit — Create Screener</div>
+    <div class="step-desc" style="margin-bottom:12px;font-size:13px">Buka Stockbit → Screener → <b>Create Screener</b> → klik <b>Add a Rule</b> → input satu per satu filter ini.</div>
+
+    <div class="sec" style="margin-top:4px">Screener Momentum Pagi (pakai ini dulu)</div>
+    <div class="filter-box">
+      <div class="filter-row"><span class="fl">Price Change Today (%)</span><span class="fv">> 0.5 dan < 6</span></div>
+      <div class="filter-row"><span class="fl">Value (hari ini)</span><span class="fv">> 10.000.000.000</span></div>
+      <div class="filter-row"><span class="fl">Volume / Volume MA20</span><span class="fv">> 1.5</span></div>
+      <div class="filter-row"><span class="fl">Market Cap</span><span class="fv">> 500.000.000.000</span></div>
+      <div class="filter-row"><span class="fl">Close > MA5</span><span class="fv">Centang / set True</span></div>
+      <div class="filter-row"><span class="fl">Close > MA20</span><span class="fv">Centang / set True</span></div>
+      <div class="filter-row"><span class="fl">RSI (14)</span><span class="fv">> 50 dan < 72</span></div>
+    </div>
+    <div class="alert-green" style="margin-top:8px">Simpan screener ini dengan nama "Momentum Pagi Scalping" biar besok tinggal klik.</div>
+
+    <div class="sec" style="margin-top:16px">Screener Volume Breakout (pakai kalau mau cari yang lebih agresif)</div>
+    <div class="filter-box">
+      <div class="filter-row"><span class="fl">Volume / Volume MA20</span><span class="fv">> 2</span></div>
+      <div class="filter-row"><span class="fl">Price Change Today (%)</span><span class="fv">> 1 dan < 8</span></div>
+      <div class="filter-row"><span class="fl">Value (hari ini)</span><span class="fv">> 15.000.000.000</span></div>
+      <div class="filter-row"><span class="fl">Market Cap</span><span class="fv">> 300.000.000.000</span></div>
+      <div class="filter-row"><span class="fl">Close > MA5</span><span class="fv">Centang / set True</span></div>
+      <div class="filter-row"><span class="fl">RSI (14)</span><span class="fv">> 45 dan < 75</span></div>
+    </div>
+
+    <div class="alert-amber" style="margin-top:8px">Catatan: Stockbit Screener pakai data EOD (kemarin). Hasil screener ini adalah <b>kandidat malam ini</b>, bukan sinyal beli langsung besok pagi. Konfirmasi wajib di Chartbit saat market buka.</div>
+  </div>
+</div>
+
+<!-- CHARTBIT -->
+<div id="tab-chartbit" class="panel">
+  <div class="card">
+    <div class="sec">Setup Chartbit untuk konfirmasi intraday</div>
+
+    <div class="step">
+      <div class="num pagi" style="font-size:11px">1</div>
+      <div class="step-body">
+        <div class="step-title">Timeframe yang dipakai</div>
+        <div class="step-desc">Malam → cek Daily chart dulu. Besok pagi saat market buka → pindah ke <b>5 menit</b>. Kalau ingin lebih santai, bisa pakai <b>15 menit</b>.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num pagi" style="font-size:11px">2</div>
+      <div class="step-body">
+        <div class="step-title">Indikator yang dipasang di Chartbit</div>
+        <div class="step-desc">
+          <b>EMA 5</b> (warna hijau) — trend sangat pendek<br>
+          <b>EMA 20</b> (warna merah) — trend pendek<br>
+          <b>VWAP</b> — patokan harga wajar intraday<br>
+          <b>Volume bar</b> — deteksi lonjakan aktivitas<br>
+          <b>RSI 14</b> — opsional tapi berguna
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num market" style="font-size:11px">3</div>
+      <div class="step-body">
+        <div class="step-title">Sinyal entry yang valid di Chartbit</div>
+        <div class="step-desc">
+          <b>Breakout:</b> candle 5 menit tembus high candle sebelumnya + volume lebih besar<br>
+          <b>Mantul VWAP:</b> harga turun ke VWAP, candle konfirmasi naik, volume masuk<br>
+          <b>EMA cross:</b> EMA5 silang ke atas EMA20 disertai volume naik
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num exit" style="font-size:11px">4</div>
+      <div class="step-body">
+        <div class="step-title">Sinyal bahaya di Chartbit — jangan masuk</div>
+        <div class="step-desc">
+          <b>Upper shadow panjang</b> di candle terakhir = ada tekanan jual<br>
+          <b>Volume turun</b> padahal harga naik = momentum lemah<br>
+          <b>Harga di bawah VWAP</b> dan tidak bisa balik = distribusi<br>
+          <b>Candle doji berulang</b> di resistance = buyer exhausted
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BISA vs TIDAK -->
+<div id="tab-bisa" class="panel">
+  <div class="card">
+    <div class="sec">Filter yang bisa diset di Stockbit vs yang tidak bisa</div>
+    <div class="two">
+      <div>
+        <div style="font-size:12px;font-weight:500;color:#3B6D11;margin-bottom:8px">Bisa diset di Stockbit</div>
+        <div class="filter-box" style="background:#EAF3DE">
+          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">Price Change %</div>
+          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">Volume (absolut)</div>
+          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">Volume MA20</div>
+          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">Value transaksi</div>
+          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">Market Cap</div>
+          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">Close vs MA5 / MA20</div>
+          <div style="font-size:12px;color:#3B6D11;padding:3px 0;border-bottom:0.5px solid #C0DD97">RSI (14)</div>
+          <div style="font-size:12px;color:#3B6D11;padding:3px 0">MA5 vs MA20</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:500;color:#A32D2D;margin-bottom:8px">Tidak bisa / manual di Chartbit</div>
+        <div class="filter-box" style="background:#FCEBEB">
+          <div style="font-size:12px;color:#A32D2D;padding:3px 0;border-bottom:0.5px solid #F7C1C1">VWAP real-time</div>
+          <div style="font-size:12px;color:#A32D2D;padding:3px 0;border-bottom:0.5px solid #F7C1C1">Spread bid-offer</div>
+          <div style="font-size:12px;color:#A32D2D;padding:3px 0;border-bottom:0.5px solid #F7C1C1">Order book tebal/tipis</div>
+          <div style="font-size:12px;color:#A32D2D;padding:3px 0;border-bottom:0.5px solid #F7C1C1">Candle intraday</div>
+          <div style="font-size:12px;color:#A32D2D;padding:3px 0;border-bottom:0.5px solid #F7C1C1">Opening range breakout</div>
+          <div style="font-size:12px;color:#A32D2D;padding:3px 0">Kondisi IHSG real-time</div>
+        </div>
+      </div>
+    </div>
+    <div class="alert-amber" style="margin-top:12px">
+      <b>Kesimpulan:</b> Stockbit Screener = alat cari kandidat malam ini. Chartbit = alat konfirmasi besok pagi. Keduanya harus dipakai bersama — screener saja tidak cukup untuk scalping.
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function sw(name) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
